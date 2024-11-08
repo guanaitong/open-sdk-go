@@ -21,10 +21,7 @@ func TestSSOLogin(t *testing.T) {
 	getAuthCodeRequest := &openapi.GetAuthCodeByMobileRequest{
 		Mobile: mobile,
 	}
-	loginApi := &openapi.LoginApi{
-		Client: client,
-	}
-	authCode, err := loginApi.GetAuthCodeByMobile(getAuthCodeRequest)
+	authCode, err := client.LoginApi().GetAuthCodeByMobile(getAuthCodeRequest)
 	if err != nil {
 		t.Log(err)
 	}
@@ -32,7 +29,7 @@ func TestSSOLogin(t *testing.T) {
 		AuthCode:    *authCode,
 		RedirectUrl: "https://m.igeidao.com",
 	}
-	url := loginApi.GenerateLoginUrl(request)
+	url := client.LoginApi().GenerateLoginUrl(request)
 
 	t.Log(url)
 }

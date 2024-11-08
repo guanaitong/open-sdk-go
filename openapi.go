@@ -288,3 +288,13 @@ func (c *OpenClient) createToken() (*Token, error) {
 	}
 	return newToken(tokenResp), nil
 }
+
+// 登录相关接口
+func (c *OpenClient) LoginApi() *LoginApi {
+	return &LoginApi{c}
+}
+
+// 员工相关接口
+func (c *OpenClient) EmployeeApi() *EmployeeApi {
+	return &EmployeeApi{c}
+}
