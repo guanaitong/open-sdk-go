@@ -15,11 +15,11 @@ import (
 	"time"
 )
 
-// const openApiUrl = "https://openapi.guanaitong.com"
+// 生产地址
+const OpenApiProdUrl = "https://openapi.guanaitong.com"
 
-const tokenCreatePath = "/token/create"
-
-const ssoLoginPath = "/sso/employee/login"
+// 测试地址
+const OpenApiTestUrl = "https://openapi.guanaitong.tech"
 
 const grantType = "client_credential"
 
@@ -64,13 +64,19 @@ type OpenClient struct {
 	Token      *Token
 }
 
-func NewOpenClient(appId string, appSecret string) *OpenClient {
-	return &OpenClient{
-		BaseUrl:    "https://openapi.guanaitong.com",
+func NewOpenClient(appId string, appSecret string, isProd bool) *OpenClient {
+	c := &OpenClient{
 		AppId:      appId,
 		AppSecret:  appSecret,
 		HttpClient: &http.Client{},
 	}
+	if isProd {
+		c.BaseUrl = OpenApiProdUrl
+	} else {
+		c.BaseUrl = OpenApiTestUrl
+
+	}
+	return c
 }
 
 type Token struct {
@@ -274,7 +280,7 @@ func (c *OpenClient) GetToken() error {
 }
 
 func (c *OpenClient) createToken() (*Token, error) {
-	tokenResp, err := Request[TokenResp](c, false, tokenCreatePath, &CreateTokenRequest{
+	tokenResp, err := Request[TokenResp](c, false, "/token/create", &CreateTokenRequest{
 		GrantType: grantType,
 	})
 	if err != nil {

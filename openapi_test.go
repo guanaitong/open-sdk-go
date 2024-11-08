@@ -12,7 +12,7 @@ var timestamp = int64(0)
 var client *openapi.OpenClient
 
 func init() {
-	client = openapi.NewOpenClient("appId", "appSecret")
+	client = openapi.NewOpenClient("appId", "appSecret", true)
 }
 
 func TestSSOLogin(t *testing.T) {
